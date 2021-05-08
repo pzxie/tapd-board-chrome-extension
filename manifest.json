@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "tapd-board-cc",
+  "author": "pzxie@outlook.com",
+  "version": "0.0.1",
+
+  "description": "tapd 看板支持按参与人进行筛选; 看板标签支持最大100个",
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
+  "page_action": {
+    "default_icon": {
+      "16": "images/icon.png",  
+      "24": "images/icon.png",
+      "32": "images/icon.png"
+    },
+    "default_title": "tapd-board-cc",
+    "default_popup": "src/popup/index.html"
+  },
+  "content_scripts": [{
+    "matches": ["https://www.tapd.cn/*"],
+    "js": ["./src/content/index.js"]
+  }],
+  "background": {
+    "scripts": ["src/background/index.js"]
+  },
+  "permissions": ["storage", "tabs", "alarms", "notifications", "declarativeContent"],
+  "web_accessible_resources": ["src/content/inject_board_cc.js"]
+}

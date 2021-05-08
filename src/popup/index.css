@@ -1,0 +1,61 @@
+body {
+  width: 240px;
+}
+
+header {
+  color: #4285f4;
+  font-size: 16px;
+}
+
+.container {
+  display: flex;
+  flex-flow: column;
+  padding: 20px;
+}
+
+.add-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+ul {
+  max-height: 400px;
+  overflow: auto;
+  padding: 0;
+  counter-reset: num;
+}
+
+li {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+li:before {
+  content: counter(num) '.';
+  counter-increment: num;
+}
+
+li:hover {
+  background: #ccc;
+}
+
+.value {
+  flex: 1;
+}
+
+
+button {
+  color: white;
+  border: none;
+}
+
+#add {
+  background: #5d84e0;
+}
+
+.delete {
+  background: red;
+}
