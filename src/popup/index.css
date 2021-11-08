@@ -1,8 +1,11 @@
 body {
-  width: 240px;
+  width: 340px;
 }
 
 header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #4285f4;
   font-size: 16px;
 }
@@ -58,4 +61,9 @@ button {
 
 .delete {
   background: red;
+}
+
+#reload {
+  font-size: 12px;
+  cursor: pointer;
 }

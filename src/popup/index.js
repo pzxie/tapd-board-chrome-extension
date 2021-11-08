@@ -4,6 +4,15 @@ var add = document.getElementById('add')
 var text = document.getElementById('text')
 var currentCC = []
 
+function getPageUrl () {
+  return new Promise(resolve => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      console.log(tabs[0])
+      resolve(tabs[0].url)
+    })
+  })
+}
+
 function addItem (text) {
   var li = createItem(text)
   list.prepend(li)
@@ -31,29 +40,31 @@ function setCurrentCC (cc) {
   currentCC = cc
 }
 
-function addItemToList (value) {
+async function addItemToList (value) {
   addItem(value)
   currentCC.unshift(value)
-  
+
+  let url = await getPageUrl()
+
+  let key = url.indexOf('prong/iterations/card_view') > -1 ? 'syncTaskBlackList' : 'cc'
+
   // 只需要设置，不需要通知，content/index.js里面做了监听的
-  chrome.storage.local.set({ cc: currentCC }, function () {
+  chrome.storage.local.set({ [key]: currentCC }, function () {
     console.log('----------------')
     console.log('新增： ' + value);
-    console.log('cc原始值为： ' + currentCC.slice(1));
-    console.log('cc更新为为： ' + currentCC);
+    console.log(`${key}原始值为： ` + currentCC.slice(1));
+    console.log(`${key}更新为为： ` + currentCC);
   });
 }
 
-chrome.storage.local.get(['cc'], function (result) {
-  if (result && result.cc && result.cc.length) {
-    initList(result.cc)
-  }
-});
+// todo 关闭popup页面
+async function hidePopup () {
 
+}
 
 
 // 删除
-list.addEventListener('click', function (e) {
+list.addEventListener('click', async function (e) {
   var current = e.target
   var parent = current.parentElement
 
@@ -61,10 +72,14 @@ list.addEventListener('click', function (e) {
 
   var value = parent.dataset.value
 
-  chrome.storage.local.get(['cc'], function (result) {
-    if (!result || !result.cc) return
+  let url = await getPageUrl()
 
-    var cc = result.cc.slice(0)
+  let key = url.indexOf('prong/iterations/card_view') > -1 ? 'syncTaskBlackList' : 'cc'
+
+  chrome.storage.local.get([key], function (result) {
+    if (!result || !result[key]) return
+
+    var cc = result[key].slice(0)
     var index = cc.indexOf(value)
 
     if (index < 0) return
@@ -73,11 +88,11 @@ list.addEventListener('click', function (e) {
     list.removeChild(parent)
     setCurrentCC(cc)
     // 只需要设置，不需要通知，content/index.js里面做了监听的
-    chrome.storage.local.set({ cc: cc }, function () {
+    chrome.storage.local.set({ [key]: cc }, function () {
       console.log('----------------')
       console.log('删除： ' + value);
-      console.log('cc原始值为： ' + result.cc);
-      console.log('cc更新为为： ' + cc);
+      console.log(`${key}原始值为： ` + result[key]);
+      console.log(`${key}更新为为： ` + cc);
     });
   });
 })
@@ -95,3 +110,21 @@ add.addEventListener('click', function (e) {
 
   text.value = ''
 })
+
+getPageUrl().then(url => {
+  let key = url.indexOf('prong/iterations/card_view') > -1 ? 'syncTaskBlackList' : 'cc'
+
+  if (key === 'syncTaskBlackList') document.getElementById('title').textContent = '同步需求黑名单'
+
+  chrome.storage.local.get([key], function (result) {
+    if (result && result[key] && result[key].length) {
+      initList(result[key])
+    }
+  });
+})
+
+let upgrade = new UpgradePopup({
+  checkVersionBtn: { id: 'checkVersion' }
+})
+
+document.getElementById('reload').addEventListener('click', upgrade.reload)

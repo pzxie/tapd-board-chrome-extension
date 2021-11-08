@@ -1,6 +1,5 @@
-console.log('content...')
 var script = document.createElement('script')
-script.src = chrome.extension.getURL('src/content/inject_board_cc.js')
+script.src = chrome.extension.getURL('src/plugins/board-cc/inject/index.js')
 document.body.appendChild(script)
 
 script.onload = function () {

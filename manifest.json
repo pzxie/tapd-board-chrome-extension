@@ -1,10 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "tapd-board-cc",
+  "name": "TAPD-Powerful",
   "author": "pzxie@outlook.com",
-  "version": "0.0.1",
-
-  "description": "tapd 看板支持按参与人进行筛选; 看板标签支持最大100个",
+  "version": "1.0.1",
+  "description": "tapd 功能扩展。看板支持按参与人进行筛选; 看板标签支持最大100个\n支持资源管理任务自动同步\n支持one平台任务自动同步",
   "icons": {
     "16": "images/icon.png",
     "48": "images/icon.png",
@@ -12,20 +11,65 @@
   },
   "page_action": {
     "default_icon": {
-      "16": "images/icon.png",  
+      "16": "images/icon.png",
       "24": "images/icon.png",
       "32": "images/icon.png"
     },
-    "default_title": "tapd-board-cc",
+    "default_title": "TAPD-Powerful V1.0.1",
     "default_popup": "src/popup/index.html"
   },
   "content_scripts": [{
-    "matches": ["https://www.tapd.cn/*"],
-    "js": ["./src/content/index.js"]
-  }],
+      "matches": [
+        "https://www.tapd.cn/*"
+      ],
+      "js": [
+        "./src/plugins/board-cc/content/index.js",
+        "./src/plugins/upgrade/content.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.tapd.cn/*/prong/iterations/*"
+      ],
+      "css": [
+        "src/plugins/iteration-task-sync/content/iteration.css"
+      ],
+      "js": [
+        "src/assets/jquery.js",
+        "src/plugins/one-sync/content/iteration.js",
+        "src/plugins/iteration-task-sync/content/iteration_progress.js",
+        "src/plugins/iteration-task-sync/content/iteration.js",
+        "src/plugins/upgrade/content.js"
+      ]
+    },
+    {
+      "matches": [
+        "http://one.medlinker.com/*"
+      ],
+      "js": [
+        "src/plugins/one-sync/content/one.js"
+      ]
+    }
+  ],
   "background": {
-    "scripts": ["src/background/index.js"]
+    "page": "src/background/index.html"
   },
-  "permissions": ["storage", "tabs", "alarms", "notifications", "declarativeContent"],
-  "web_accessible_resources": ["src/content/inject_board_cc.js"]
+  "permissions": [
+    "storage",
+    "tabs",
+    "alarms",
+    "notifications",
+    "declarativeContent",
+    "webRequest",
+    "webRequestBlocking",
+    "downloads",
+    "management",
+    "https://www.tapd.cn/",
+    "https://gitee.com/",
+    "https://tool.bitefu.net/"
+  ],
+  "web_accessible_resources": [
+    "src/plugins/board-cc/inject/index.js",
+    "src/plugins/iteration-task-sync/inject/index.js"
+  ]
 }

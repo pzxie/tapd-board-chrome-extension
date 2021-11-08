@@ -6,10 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Board CC</title>
   <link rel="stylesheet" href="./index.css">
+  <style>
+
+  </style>
 </head>
 
 <body>
-  <header>看板参与人员管理</header>
+  <header>
+    <span id="title">看板参与人员管理</span>
+    <div>
+      <span id="reload">重新加载</span>
+      <span id="checkVersion">检查更新</span>
+    </div>
+  </header>
   <div class="container">
     <div class="add-wrapper">
       <input type="text" id="text" />
@@ -19,6 +28,7 @@
     <ul id="list">
     </ul>
   </div>
+  <script src="../plugins/upgrade/popup.js"></script>
   <script src="./index.js"></script>
 </body>
 

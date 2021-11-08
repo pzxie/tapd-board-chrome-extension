@@ -1,5 +1,3 @@
-console.log('tapd-board-cc')
-
 // background.js
 chrome.runtime.onInstalled.addListener(function () {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
