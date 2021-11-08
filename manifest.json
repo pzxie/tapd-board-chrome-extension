@@ -42,14 +42,6 @@
         "src/plugins/iteration-task-sync/content/iteration.js",
         "src/plugins/upgrade/content.js"
       ]
-    },
-    {
-      "matches": [
-        "http://one.medlinker.com/*"
-      ],
-      "js": [
-        "src/plugins/one-sync/content/one.js"
-      ]
     }
   ],
   "background": {
