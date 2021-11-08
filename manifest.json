@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "TAPD-Powerful",
   "author": "pzxie@outlook.com",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "tapd 功能扩展。看板支持按参与人进行筛选; 看板标签支持最大100个\n支持资源管理任务自动同步\n支持one平台任务自动同步",
   "icons": {
     "16": "images/icon.png",
@@ -18,7 +18,8 @@
     "default_title": "TAPD-Powerful V1.0.1",
     "default_popup": "src/popup/index.html"
   },
-  "content_scripts": [{
+  "content_scripts": [
+    {
       "matches": [
         "https://www.tapd.cn/*"
       ],
